@@ -1,6 +1,6 @@
 
 import { TypeOfDropDown } from "@/types";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 type typeOfPageProps = {
   value: string | number;
