@@ -9,6 +9,7 @@ export type TypeOfSource = {
 }
 
 export type TypeOfArticleData = {
+    id: number,
     author?: string;
     title?: string;
     source?: TypeOfSource;
@@ -37,4 +38,18 @@ export type TypeOfDropDown = {
 export type TypeOfFilters = {
     author?: string;
     type?:  string;
+}
+
+
+export type TypeOfArticleRate = {
+    id: number,
+    rate: number;
+}
+
+export type TypeOfCSVRows = {
+
+    Author?: string;
+    Type?: string;
+    Headline?: string;
+    Price?: number;
 }

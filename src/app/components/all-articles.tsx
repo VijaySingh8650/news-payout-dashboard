@@ -1,17 +1,26 @@
 "use client";
 
-import { TypeOfArticleData, TypeOfFetchedData, TypeOfFilters } from "@/types";
+import { TypeOfArticleData, TypeOfArticleRate, TypeOfFetchedData, TypeOfFilters } from "@/types";
 import React, { useEffect, useState } from "react";
 import Article from "./article";
 import SelectField from "./dynamic-select-field";
 import { typesDropDown } from "@/constant";
+import ExportCSV from "@/utils/export-csv";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 type TypeOfPageProps = {
   data: TypeOfFetchedData;
 };
 
 const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
-  const [filteredData, setFilteredData] = useState<TypeOfFetchedData>(data);
+
+  const [filteredData, setFilteredData] = useState<TypeOfFetchedData>({...data});
+  const { type, buyArticles, email, password } = useSelector((state: RootState) => state.user);
+
+
+
+
   const [selectedFilteres, setSelectedFilteres] = useState<TypeOfFilters>({
     author: "",
     type: "",
@@ -46,6 +55,25 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
     }
   }, [selectedFilteres]);
 
+
+  useEffect(()=>{
+
+    if(localStorage.getItem("payout")){
+
+        setFilteredData({
+            ...filteredData,
+            articles: data?.articles?.map((el)=>{
+                return {
+                    ...el,
+                    rate: JSON.parse(localStorage.getItem("payout") as string)?.find((item:TypeOfArticleRate)=> item.id===el?.id)?.rate
+                }
+              })
+
+        })
+    }
+
+  },[]);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     
     setSelectedFilteres({
@@ -56,16 +84,35 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
   };
 
   const handleReset = () =>{
+
     setSelectedFilteres({
       author: "",
       type: "",
     });
+
+  }
+
+  const handleEditRate  = (index: number, rate:number) => {
+    
+    const updateRate = [...filteredData?.articles];
+
+    updateRate[index-1].rate = rate;
+ 
+
+    setFilteredData({
+     ...filteredData,
+      articles: updateRate,
+    });
+    
   }
 
   return (
     <>
+    
 
       <div className="flex flex-wrap items-center justify-start md:justify-end gap-4 mx-4 mt-4">
+         {type==="user" && email && password && buyArticles?.length > 0  && <ExportCSV data={data?.articles}  title="Export CSV File" buyArticles={buyArticles}/>}
+
         <SelectField
           label={false}
           handleChange={handleChange}
@@ -96,7 +143,7 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
 
       <div className="flex flex-wrap justify-center gap-8  mx-2 md:mx-4 my-4 md:mt-8">
         {filteredData?.articles?.length>0 ? filteredData?.articles?.map((el: TypeOfArticleData, index: number) => {
-          return <Article key={index} data={el} />;
+          return <Article key={index} data={el} handleEditRate={handleEditRate}/>;
         }) :
 
         <h3>Nothing found!</h3>

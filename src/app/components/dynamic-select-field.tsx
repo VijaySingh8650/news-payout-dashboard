@@ -29,7 +29,7 @@ const SelectField: React.FC<typeOfPageProps> = ({
 
 
 
-  console.log(value, "sdlnfhfhf");
+ 
   return (
     <div className="flex flex-col">
       {label && (

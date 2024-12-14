@@ -19,12 +19,14 @@ export default async function Home() {
 
         return {
           ...el,
+          id: index+1,
           type: "News"
         }
 
       }
       return {
        ...el,
+        id: index+1,
         type: "Blog"
       }
 

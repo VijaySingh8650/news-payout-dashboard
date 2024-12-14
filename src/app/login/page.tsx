@@ -1,10 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../components/dynamic-input-field";
 import { TypeOfFormData } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useRouter } from "next/navigation";
+import { updateUser } from "@/store/userSlice/user-slice";
 
 const LogInPage = () => {
+
+
+  const {email, password} = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+
+  const router = useRouter();
+
 
   const [error, setError] = useState<boolean>(false);
   const [formData, setFormData] = useState<TypeOfFormData>({
@@ -22,10 +34,24 @@ const LogInPage = () => {
     } else {
       // API Call
       setError(false);
-      // Navigate to dashboard
-      // router.push("/");
+      localStorage.setItem("credential", JSON.stringify(formData));
+      dispatch(updateUser({...formData}));
+    //   Navigate to dashboard
+      router.push("/");
     }
   }
+
+
+  useEffect(()=>{
+
+    if(email && password){
+        
+      router.push("/");
+
+    }
+
+  },[])
+
 
   return (
     <div className="flex items-center justify-center h-[100vh] w-[100vw]">
