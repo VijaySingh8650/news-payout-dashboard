@@ -1,7 +1,7 @@
 
-import { TypeOfArticleData, TypeOfArticleRate, TypeOfCSVRows } from "@/types";
+import { TypeOfArticleData, TypeOfArticleRate } from "@/types";
 import React from "react";
-import { toast, Toaster } from "sonner";
+
 
 type TypeOfPageProps = {
 
@@ -58,15 +58,14 @@ const ExportCSV: React.FC<TypeOfPageProps> = ({ title, data, buyArticles }) => {
       
 
   return (
-    <>
-      <Toaster position="top-center" duration={3000} />
+
       <button
         onClick={downloadCSV}
-        className="border-1 border-black  bg-black text-white py-2 px-4 rounded-lg shadow-lg text-sm"
+        className="bg-primaryColor text-white py-2 px-4 rounded-lg shadow-lg text-sm"
       >
         {title}
       </button>
-    </>
+ 
   );
 };
 
