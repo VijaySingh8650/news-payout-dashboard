@@ -3,15 +3,13 @@
 import React, { useEffect, useState } from "react";
 import InputField from "../components/dynamic-input-field";
 import { TypeOfFormData } from "@/types";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/store/userSlice/user-slice";
 
 const LogInPage = () => {
 
 
-  const {email, password} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
 
