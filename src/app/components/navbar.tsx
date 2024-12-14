@@ -11,7 +11,7 @@ import { useDispatch, useSelector} from 'react-redux';
 
 const Navbar = () => {
 
-  const {type, email, password} = useSelector((state: RootState) => state.user);
+  const {email, password} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
 

@@ -30,8 +30,8 @@ const Article: React.FC<TypeOfPageProps> = ({ data, handleEditRate }) => {
   const handleSaveRate = () => {
 
     handleEditRate(data.id, rateValue);
-    let getPayout = JSON.parse(localStorage.getItem("payout") as string) || [];
-    let payoutIndex = getPayout.findIndex((el: TypeOfArticleRate) => el.id === data?.id);
+    const getPayout = JSON.parse(localStorage.getItem("payout") as string) || [];
+    const payoutIndex = getPayout.findIndex((el: TypeOfArticleRate) => el.id === data?.id);
     if(payoutIndex!==-1){
         getPayout[payoutIndex] = { id: data.id, rate: rateValue };
     }else{
@@ -57,8 +57,16 @@ const Article: React.FC<TypeOfPageProps> = ({ data, handleEditRate }) => {
             toast.success("Keep reading!");
             return;
         }
+        else if(email && password){
 
-        (email && password) ? dispatch(addArticleToBuy({id:data?.id, rate:data?.rate})) : router.push("/login");
+            dispatch(addArticleToBuy({id:data?.id, rate:data?.rate}))
+
+        }else{
+            
+            router.push("/login");
+
+        }
+
     }
   }
 
