@@ -51,7 +51,20 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
       });
 
     } else {
-      setFilteredData(data);
+        
+        if(localStorage.getItem("payout")){
+
+            setFilteredData({
+                ...filteredData,
+                articles: data?.articles?.map((el)=>{
+                    return {
+                        ...el,
+                        rate: JSON.parse(localStorage.getItem("payout") as string)?.find((item:TypeOfArticleRate)=> item.id===el?.id)?.rate
+                    }
+                  })
+    
+            })
+        }else setFilteredData(data);
     }
   }, [selectedFilteres]);
 
@@ -89,6 +102,8 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
       author: "",
       type: "",
     });
+
+    
 
   }
 
