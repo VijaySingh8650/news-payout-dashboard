@@ -47,11 +47,16 @@ const AllArticles: React.FC<TypeOfPageProps> = ({ data }) => {
 
       setFilteredData({
         ...data,
-        articles: filteredArticles,
+        articles: filteredArticles?.map((el)=>{
+            return {
+                ...el,
+                rate: JSON.parse(localStorage.getItem("payout") as string)?.find((item:TypeOfArticleRate)=> item.id===el?.id)?.rate
+            }
+          })
       });
 
     } else {
-        
+
         if(localStorage.getItem("payout")){
 
             setFilteredData({
