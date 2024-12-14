@@ -43,8 +43,8 @@ const LogInPage = () => {
 
 
   useEffect(()=>{
-
-    if(email && password){
+    const credentials = (typeof window!==undefined) && localStorage.getItem("credential")  ? JSON.parse(localStorage.getItem("credential") as string) : "";
+    if(credentials?.email && credentials?.password){
         
       router.push("/");
 
